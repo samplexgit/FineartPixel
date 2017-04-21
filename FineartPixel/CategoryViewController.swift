@@ -9,8 +9,23 @@
 import UIKit
 
 class CategoryViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate {
-
+    @IBOutlet weak var catCollectionView: UICollectionView!
     var categoryImage: [UIImage] = [
+        UIImage(named: "images")!,
+        
+        UIImage(named: "images-1")!,
+        UIImage(named: "images-2")!,
+        UIImage(named: "images-3")!,
+        UIImage(named: "images-4")!,
+        UIImage(named: "images-5")!,
+        UIImage(named: "images-6")!,
+        UIImage(named: "images")!,
+        UIImage(named: "images-1")!,
+        UIImage(named: "images-2")!,
+        UIImage(named: "images-3")!,
+        UIImage(named: "images-4")!,
+        UIImage(named: "images-5")!,
+        UIImage(named: "images-6")!,
         UIImage(named: "images")!,
         UIImage(named: "images-1")!,
         UIImage(named: "images-2")!,
@@ -19,7 +34,7 @@ class CategoryViewController: UIViewController,UICollectionViewDataSource, UICol
         UIImage(named: "images-5")!,
         UIImage(named: "images-6")!
     ]
-    
+    var rows = Int()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,6 +46,8 @@ class CategoryViewController: UIViewController,UICollectionViewDataSource, UICol
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return categoryImage.count
@@ -44,10 +61,12 @@ class CategoryViewController: UIViewController,UICollectionViewDataSource, UICol
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "viewCell", for: indexPath as IndexPath) as! ViewCollectionViewCell
         
             cell.imgView.image = categoryImage[indexPath.row]
-            
+        
             return cell
             
    }
+    
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // handle tap events
         print("You selected cell #\(indexPath.item)!")
@@ -56,9 +75,14 @@ class CategoryViewController: UIViewController,UICollectionViewDataSource, UICol
         individualSelectViewController.imageItem = categoryImage[indexPath.row]
         self.present(individualSelectViewController, animated:true, completion:nil)
         
-    } 
-
+    }
     
+    
+    
+    @IBAction func onClickBack(_ sender: Any) {
+        let back = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+        self.present(back, animated: true, completion: nil)
+    }
 
     /*
     // MARK: - Navigation

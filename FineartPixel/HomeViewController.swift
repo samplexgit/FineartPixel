@@ -13,7 +13,8 @@ class HomeViewController: UIViewController,UICollectionViewDataSource, UICollect
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     
     @IBOutlet weak  var newCollectionView: UICollectionView!
-
+    @IBOutlet weak var viewSlide: UIView!
+    var toggleState = 1
    
     
     var categoryImage: [UIImage] = [
@@ -25,6 +26,8 @@ class HomeViewController: UIViewController,UICollectionViewDataSource, UICollect
         UIImage(named: "images-5")!,
         UIImage(named: "images-6")!
     ]
+    
+    var categoryNames: [String] = ["Abstart","Animals","Logos","Badges","Flowers","Abstract","Nature" ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +38,14 @@ class HomeViewController: UIViewController,UICollectionViewDataSource, UICollect
         newCollectionView.delegate = self
         newCollectionView.delegate = self
         
+        viewSlide.isHidden = true
+        viewSlide.layer.shadowColor = UIColor.black.cgColor
+        viewSlide.layer.shadowOpacity = 1
+        viewSlide.layer.shadowOffset = CGSize.zero
+        viewSlide.layer.shadowRadius = 10
         newCollectionView.collectionViewLayout.invalidateLayout()
+        viewSlide.backgroundColor = UIColor(white: 1, alpha: 0.5)
+       
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -57,20 +67,15 @@ class HomeViewController: UIViewController,UICollectionViewDataSource, UICollect
         {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellCat", for: indexPath as IndexPath) as! CategoryCollectionViewCell
             
-            // Use the outlet in our custom class to get a reference to the UILabel in the cell
-            //cell.myLabel.text = self.items[indexPath.item]
-            //cell.backgroundColor = UIColor.cyan // make cell more visible in our example project
+           
             cell.imgCategory.image = categoryImage[indexPath.row]
-            
+            cell.lblCategory.text = categoryNames[indexPath.row]
             return cell
 
         }
         else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellNew", for: indexPath as IndexPath) as! NewCollectionCollectionViewCell
             
-            // Use the outlet in our custom class to get a reference to the UILabel in the cell
-            //cell.myLabel.text = self.items[indexPath.item]
-            //cell.backgroundColor = UIColor.cyan // make cell more visible in our example project
             cell.imgNew.image = categoryImage[indexPath.row]
             return cell
 
@@ -109,15 +114,42 @@ class HomeViewController: UIViewController,UICollectionViewDataSource, UICollect
     @IBAction func onClickViewAll(_ sender: Any) {
         
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    
+    @IBAction func onClickMenu(_ sender: Any) {
+        if toggleState == 1 {
+          if self.view.frame.origin.x == 0 {
+            toggleState = 2
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+                self.view.frame.origin.x += 200
+                self.viewSlide.frame = CGRect(x: -200, y: self.viewSlide.frame.origin.y, width: self.viewSlide.frame.size.width, height: self.viewSlide.frame.size.height)
+                self.viewSlide.isHidden = false
+                self.view.layoutIfNeeded()
+            },completion: nil)
+            
+          }
+        }
+        else {
+           toggleState = 1
+            if self.view.frame.origin.x != 0{
+                toggleState = 2
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+                    self.view.frame.origin.x -= 200
+                    self.viewSlide.frame = CGRect(x: 0, y: self.viewSlide.frame.origin.y, width: self.viewSlide.frame.size.width, height: self.viewSlide.frame.size.height)
+                    self.viewSlide.isHidden = true
+                    self.view.layoutIfNeeded()
+                },completion: nil)
+            }
+ 
+        }
     }
-    */
 
+    
+
+}
+
+extension UIView {
+    class func fromNib<T : UIView>() -> T {
+        return Bundle.main.loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
+    }
 }

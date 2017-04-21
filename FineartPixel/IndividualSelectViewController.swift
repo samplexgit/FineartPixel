@@ -26,6 +26,10 @@ class IndividualSelectViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func onClickBack(_ sender: Any) {
+        let back = self.storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
+        self.present(back, animated: true, completion: nil)
+    }
     
     
 
