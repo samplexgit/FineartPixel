@@ -8,8 +8,10 @@
 
 import UIKit
 
-class CategoryViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate {
+class CategoryViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var catCollectionView: UICollectionView!
+    var heightInPixels:CGFloat?
+    var widthInPixels:CGFloat?
     var categoryImage: [UIImage] = [
         UIImage(named: "images")!,
         
@@ -38,7 +40,14 @@ class CategoryViewController: UIViewController,UICollectionViewDataSource, UICol
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+//        // Do any additional setup after loading the view.
+//        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        let width = UIScreen.main.bounds.width
+//        layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+//        layout.itemSize = CGSize(width: width / 2, height: width / 2)
+//        layout.minimumInteritemSpacing = 0
+//        layout.minimumLineSpacing = 0
+//        catCollectionView!.collectionViewLayout = layout
         
     }
 
@@ -61,7 +70,6 @@ class CategoryViewController: UIViewController,UICollectionViewDataSource, UICol
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "viewCell", for: indexPath as IndexPath) as! ViewCollectionViewCell
         
             cell.imgView.image = categoryImage[indexPath.row]
-        
             return cell
             
    }
@@ -77,6 +85,20 @@ class CategoryViewController: UIViewController,UICollectionViewDataSource, UICol
         
     }
     
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let heightInPoints = categoryImage[indexPath.row].size.height
+//        heightInPixels = heightInPoints * categoryImage[indexPath.row].scale
+//        
+//        let widthInPoints = categoryImage[indexPath.row].size.width
+//        widthInPixels = widthInPoints * categoryImage[indexPath.row].scale
+//        if widthInPixels != nil {
+//          return CGSize(width:150, height:heightInPixels!) //(width,hight)
+//        }
+//        else {
+//            return CGSize(width:100,height:100)
+//        }
+//    }
+    
     
     
     @IBAction func onClickBack(_ sender: Any) {
@@ -84,14 +106,6 @@ class CategoryViewController: UIViewController,UICollectionViewDataSource, UICol
         self.present(back, animated: true, completion: nil)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
 
 }
